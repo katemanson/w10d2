@@ -69,12 +69,16 @@ describe("Basket", function() {
     assert.equal(5, basket.getBogofItems().length);
   });
 
-  it("can get free bogof items", function() {
+  it("can get not-free items", function() {
     basket.addItems(items);
     console.log("Basket contents: ", basket.contents);
-    assert.equal(1, basket.getFreeBogofItems().length);
-    assert.equal("cereal bars", basket.getFreeBogofItems()[0].description);
+    assert.equal(8, basket.removeFreeBogofItems().length);
   });
+
+  it("can calculate final final total", function() {
+    basket.addItems(items);
+    assert.equal(29.64, basket.finalFinalTotal(customer))
+  })
   
 
 

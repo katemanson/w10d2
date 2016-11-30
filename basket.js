@@ -42,33 +42,34 @@ var basket = {
     }
     return bogofItems;
   },
-  getFreeBogofItems: function() {
-    var bogofItems = this.getBogofItems();
-    console.log("bogofItems:", bogofItems);
+  removeFreeBogofItems: function() {
+    var copyItems = this.contents.slice();
+    console.log("copyItems:", copyItems);
     var notFreeItems = [];
     var freeItems = [];
+    var counter = 0;
 
-    while ( bogofItems.length > 0 ) {
-      var currentItem = bogofItems[0];
-      console.log("In while loop; currentItem is ", currentItem);
+    while ( copyItems.length > 0 ) {
+      var currentItem = copyItems[0];
+      console.log("In outer outer if loop; currentItem is ", currentItem);
       notFreeItems.push(currentItem);
-      bogofItems.shift();
-      var counter = 1;
+      copyItems.shift();
+      counter++;
 
-      for ( var item of bogofItems ) {
-        var index = bogofItems.indexOf(item);
+      for ( var item of copyItems ) {
+        var index = copyItems.indexOf(item);
         if ( item.description === currentItem.description ) {
           counter++;
-          console.log("In outer if statement; counter is ", counter);
+          console.log("In middle outer if statement; counter is ", counter);
           if ( counter % 2 === 0 ) {
             console.log("In inner if statement; counter is ", counter);
             freeItems.push(item);
-            bogofItems.splice(index, 1);
+            copyItems.splice(index, 1);
           }
           if ( counter % 2 === 1 ) {
             console.log("In inner if statement; counter is ", counter);
             notFreeItems.push(item);
-            bogofItems.splice(index, 1);
+            copyItems.splice(index, 1);
           }
         }
       }
@@ -76,12 +77,31 @@ var basket = {
     console.log("At end of function.");
     console.log("freeItems: ", freeItems);
     console.log("notFreeItems: ", notFreeItems);
-    return freeItems;
+    return notFreeItems;
+  }, 
+  bogofRawTotal: function() {
+    var bogoffedContents = this.removeFreeBogofItems();
+    var total = 0;
+    for (var item of bogoffedContents) {
+      total += item.price;
+    }
+    return total;
+  }, 
+  finalFinalTotal: function(customer) {
+    var total = this.bogofRawTotal();
+    if ( total > 20 && !customer.loyaltyStatus ) {
+      total = (total / 100) * 90;
+    };
+    if ( total > 20 && customer.loyaltyStatus ) {
+      total = (total / 100) * 85;
+    };
+    total = Math.round(total * 100) / 100;
+    return total;
   }
 };
 
 basket.addItems(items);
 console.log("Basket contents", basket.contents);
-basket.getFreeBogofItems();
+basket.removeFreeBogofItems();
 
 module.exports = basket;
