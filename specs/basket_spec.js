@@ -30,19 +30,19 @@ describe("Basket", function() {
 
   it("can add multiple items", function() {
     basket.addItems(items);
-    assert.equal(9, basket.contents.length);
+    assert.equal(10, basket.contents.length);
   });
 
   it("can empty basket", function() {
     basket.addItems(items);
-    assert.equal(9, basket.contents.length);
+    assert.equal(10, basket.contents.length);
     basket.empty();
     assert.equal(0, basket.contents.length);
   });
 
   it("can calculate raw total", function() {
     basket.addItems(items);
-    assert.equal(38.12, basket.rawTotal());
+    assert.equal(41.37, basket.rawTotal());
   });
 
   it("can calculate final total, where no discounts apply", function() {
@@ -56,17 +56,17 @@ describe("Basket", function() {
   it("can calculate final total after threshold discount only (i.e. where customer does not have a loyalty card", function() {
     customer.loyaltyStatus = false;
     basket.addItems(items);
-    assert.equal(34.31, basket.finalTotal(customer));
+    assert.equal(37.23, basket.finalTotal(customer));
   });
 
   it("can calculate final total after loyalty discount (i.e. where customer has a loyalty card", function() {
     basket.addItems(items);
-    assert.equal(32.40, basket.finalTotal(customer));
+    assert.equal(35.16, basket.finalTotal(customer));
   });
 
   it("can get bogof items", function() {
     basket.addItems(items);
-    assert.equal(5, basket.getBogofItems().length);
+    assert.equal(6, basket.getBogofItems().length);
   });
 
   it("can get not-free items", function() {

@@ -3,8 +3,8 @@ var assert = require("assert");
 
 describe("Items", function() {
 
-  it("should have 9 items", function() {
-    assert.equal(9, items.length);
+  it("should have 10 items", function() {
+    assert.equal(10, items.length);
   });
 
   it("item should have a description", function() {

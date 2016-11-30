@@ -34,6 +34,10 @@ var items = [
   { description: "cereal bars",
     price: 3.25,
     bogofStatus: true
+  },
+  { description: "cereal bars",
+    price: 3.25,
+    bogofStatus: true
   }
 ];
 

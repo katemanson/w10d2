@@ -47,29 +47,19 @@ var basket = {
     console.log("copyItems:", copyItems);
     var notFreeItems = [];
     var freeItems = [];
-    var counter = 0;
 
     while ( copyItems.length > 0 ) {
       var currentItem = copyItems[0];
       console.log("In outer outer if loop; currentItem is ", currentItem);
       notFreeItems.push(currentItem);
       copyItems.shift();
-      counter++;
 
-      for ( var item of copyItems ) {
-        var index = copyItems.indexOf(item);
-        if ( item.description === currentItem.description ) {
-          counter++;
-          console.log("In middle outer if statement; counter is ", counter);
-          if ( counter % 2 === 0 ) {
-            console.log("In inner if statement; counter is ", counter);
-            freeItems.push(item);
-            copyItems.splice(index, 1);
-          }
-          if ( counter % 2 === 1 ) {
-            console.log("In inner if statement; counter is ", counter);
-            notFreeItems.push(item);
-            copyItems.splice(index, 1);
+      if ( currentItem.bogofStatus === true ) {
+        for ( var item of copyItems ) {
+          var index = copyItems.indexOf(item);
+          if ( item.description === currentItem.description ) {
+              freeItems.push(item);
+              copyItems.splice(index, 1);
           }
         }
       }
