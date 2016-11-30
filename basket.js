@@ -41,14 +41,47 @@ var basket = {
       }
     }
     return bogofItems;
-  }
-  getFreeItems: function() {
-    var freeItems = [];
+  },
+  getFreeBogofItems: function() {
+    var bogofItems = this.getBogofItems();
+    console.log("bogofItems:", bogofItems);
     var notFreeItems = [];
-    for ( var item of this.bogofItems() ) {
+    var freeItems = [];
 
+    while ( bogofItems.length > 0 ) {
+      var currentItem = bogofItems[0];
+      console.log("In while loop; currentItem is ", currentItem);
+      notFreeItems.push(currentItem);
+      bogofItems.shift();
+      var counter = 1;
+
+      for ( var item of bogofItems ) {
+        var index = bogofItems.indexOf(item);
+        if ( item.description === currentItem.description ) {
+          counter++;
+          console.log("In outer if statement; counter is ", counter);
+          if ( counter % 2 === 0 ) {
+            console.log("In inner if statement; counter is ", counter);
+            freeItems.push(item);
+            bogofItems.splice(index, 1);
+          }
+          if ( counter % 2 === 1 ) {
+            console.log("In inner if statement; counter is ", counter);
+            notFreeItems.push(item);
+            bogofItems.splice(index, 1);
+          }
+        }
+      }
     }
+    console.log("At end of function.");
+    console.log("freeItems: ", freeItems);
+    console.log("notFreeItems: ", notFreeItems);
+    return freeItems;
   }
 };
+
+basket.addItems(items);
+console.log("Basket contents", basket.contents);
+basket.getFreeBogofItems();
 
 module.exports = basket;
